@@ -12,29 +12,31 @@ contract Lender {
         maxLendAmount = maxAmount;
     } 
     
-    function changeMaxAmount(uint maxAmount) public {
-        if(msg.sender == owner) {
-            maxLendAmount = maxAmount;
-        } else {
+    function changeMaxAmount (uint maxAmount) public {
+        if(msg.sender != owner) {
             revert();
-        }
+        } 
+        maxLendAmount = maxAmount;
     }
     
     function requestMoney(uint amount) public {
-        if(amount <= maxLendAmount && balanceOf[msg.sender] + amount <= maxLendAmount) {
-            balanceOf[msg.sender] += amount;
-            Borrowed(msg.sender, amount);
-        } else {
+        if(amount > maxLendAmount && balanceOf[msg.sender] + amount > maxLendAmount) {
             revert();
-        }
+        } 
+        balanceOf[msg.sender] += amount;
+        Borrowed(msg.sender, amount);
     }
     
-    function returnMoney(uint amount) public {
-        if(balanceOf[msg.sender] >= amount ) {
-            balanceOf[msg.sender] -= amount;
-            Returned(msg.sender, amount);
-        } else {
+    function returnMoney(address who, uint amount) public {
+        if(msg.sender != owner) {
             revert();
         }
+        
+        if(balanceOf[who] < amount ) {
+            revert();
+        }
+        
+        balanceOf[who] -= amount;
+        Returned(who, amount);
     }
 }
