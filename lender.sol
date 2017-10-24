@@ -9,11 +9,16 @@ contract Lender {
     
     function Lender(uint maxAmount) public {
         owner = msg.sender;
+        //nor more than one million dollars
+        if(maxAmount > 100000000) {
+            revert();
+        }
+        
         maxLendAmount = maxAmount;
     } 
     
     function changeMaxAmount (uint maxAmount) public {
-        if(msg.sender != owner) {
+        if(msg.sender != owner || maxAmount > 100000000) {
             revert();
         } 
         maxLendAmount = maxAmount;
