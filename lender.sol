@@ -28,6 +28,10 @@ contract Lender {
         if(amount > maxLendAmount && balanceOf[msg.sender] + amount > maxLendAmount) {
             revert();
         } 
+
+	if(amount == 0 ) {
+            revert();
+	}
         balanceOf[msg.sender] += amount;
         Borrowed(msg.sender, amount);
     }
