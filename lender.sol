@@ -12,7 +12,7 @@ contract Lender {
         maxLendAmount = maxAmount;
     } 
     
-    function changeMaxAmount (uint maxAmount) public {
+    function changeMaxAmount(uint maxAmount) public {
         if(msg.sender == owner) {
             maxLendAmount = maxAmount;
         } else {
